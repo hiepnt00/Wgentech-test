@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Product Showcase</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Open+Sans&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <div class="page">
+    <!-- section 1 -->
+    <section class="hero-section">
+      <div class="hero-section__content">
+        <div class="hero-section__text">
+          <p class="hero-section__title">Ipsum minim mollit irure</p>
+          <p class="hero-section__description">
+            Lorem ipsum dolor sit amet consectetur. Est congue ultrices sem id aliquam et diam ultricies rhoncus. Purus
+            rhoncus volutpat cum scelerisque. Orci proin neque nec lacinia gravida. Quis enim nibh rutrum.
+          </p>
+        </div>
+        <img src="img/container1-p1.png" alt="Hero Image" class="hero-section__image">
+      </div>
+
+      <div class="features">
+        <div class="features__item">
+          <img src="img/container1-i1.png" alt="icon" class="features__icon">
+          <p class="features__text">Veniam exercitation reprehenderit proident cillum consequat est irure duis. Esse est
+            qui mollit adipisicing dolore ut qui reprehenderit nulla dolore consectetur velit.</p>
+        </div>
+        <div class="features__item">
+          <img src="img/container1-i1.png" alt="icon" class="features__icon">
+          <p class="features__text">Lorem ullamco in est sit proident elit adipisicing dolor occaecat enim et sunt.
+            Proident duis sunt sit veniam non. Dolore ut officia consectetur excepteur consequat reprehenderit.</p>
+        </div>
+        <div class="features__item">
+          <img src="img/container1-i1.png" alt="icon" class="features__icon">
+          <p class="features__text">Lorem ullamco in est sit proident elit adipisicing dolor occaecat enim et sunt.
+            Proident duis sunt sit veniam non. Dolore ut officia consectetur excepteur consequat reprehenderit.</p>
+        </div>
+        <div class="features__item">
+          <img src="img/container1-i1.png" alt="icon" class="features__icon">
+          <p class="features__text">Lorem ullamco in est sit proident elit adipisicing dolor occaecat enim et sunt.
+            Proident duis sunt sit veniam non. Dolore ut officia consectetur excepteur consequat reprehenderit.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- section 1 -->
+    <section class="section-slider">
+      <div class="slider">
+        <button class="slider__button slider__button--prev" id="prev"></button>
+        <div class="slider__container">
+          <div class="slider__item product">
+            <img src="img/container2-p1.jpg" alt="Product 1" class="product__image">
+            <div class="product__info">
+              <p class="product__title">Exterior</p>
+              <a href="#" class="product__link">SEE PRODUCTS</a>
+            </div>
+          </div>
+          <div class="slider__item product">
+            <img src="img/container2-p2.jpg" alt="Product 2" class="product__image">
+            <div class="product__info">
+              <p class="product__title">Aute duis</p>
+              <a href="#" class="product__link">SEE PRODUCTS</a>
+            </div>
+          </div>
+          <div class="slider__item product">
+            <img src="img/container2-p3.png" alt="Product 3" class="product__image">
+            <div class="product__info">
+              <p class="product__title">Proident</p>
+              <a href="#" class="product__link">SEE PRODUCTS</a>
+            </div>
+          </div>
+          <div class="slider__item product">
+            <img src="img/container2-p4.jpg" alt="Product 4" class="product__image">
+            <div class="product__info">
+              <p class="product__title">Aliqua</p>
+              <a href="#" class="product__link">SEE PRODUCTS</a>
+            </div>
+          </div>
+        </div>
+        <button class="slider__button slider__button--next" id="next"></button>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    // Get necessary DOM elements
+    const slider = document.querySelector(".slider"); // The outer wrapper of the slider
+    const sliderContainer = document.querySelector(".slider__container"); // The container that holds all slider items
+    const item = document.querySelector(".slider__item"); // A single item used to calculate width
+    const prev = document.getElementById("prev"); // Previous button
+    const next = document.getElementById("next"); // Next button
+
+    // Initial index of the visible slide
+    let index = 1;
+
+    // Initial horizontal translation value
+    let translateX = 202;
+
+    // Function to update slider position
+    const updateSlider = () => {
+      const widthSliderContainer = sliderContainer.clientWidth; // Total width of the container
+      const widthSlider = slider.clientWidth; // Width of the visible slider area
+      const widthItem = item.clientWidth; // Get width of a single slider item
+
+      if (index === 0) {
+        // Go to the first slide (reset position)
+        sliderContainer.style.transform = "translateX(0px)";
+      } else if (index === 1) {
+        // Move to the second slide
+        translateX = 202;
+        sliderContainer.style.transform = `translateX(-${translateX}px)`;
+      } else {
+        // Move to the next slides beyond the second
+        translateX += widthItem + 8;
+        if (translateX > widthSliderContainer - widthSlider) {
+          // Prevent overflow to the right
+          translateX = widthSliderContainer - widthSlider;
+        }
+        sliderContainer.style.transform = `translateX(-${translateX}px)`;
+      }
+    };
+
+    // Event listener for the "next" button
+    next.addEventListener("click", () => {
+      // If at the second last item, go back to the beginning
+      if (index === sliderContainer.children.length - 2) {
+        index = 0;
+      } else {
+        // Otherwise, move to the next item
+        index++;
+      }
+      updateSlider(); // Apply the position change
+    });
+
+    // Event listener for the "previous" button
+    prev.addEventListener("click", () => {
+      // Decrease the index and loop around if needed
+      index = (index - 1 + sliderContainer.children.length) % sliderContainer.children.length;
+      updateSlider(); // Apply the position change
+    });
+
+    // Update slider on window resize (responsive)
+    window.addEventListener("resize", updateSlider);
+  </script>
+
+</body>
+
+</html>
